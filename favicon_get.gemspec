@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
+require_relative 'lib/favicon_get/version'
+
 Gem::Specification.new do |spec|
   spec.name = 'favicon_get'
-  spec.version = '0.1.0'
+  spec.version = FaviconGet::VERSION
   spec.authors = ['Ivan Nemytchenko']
   spec.email = ['nemytchenko@gmail.com']
 

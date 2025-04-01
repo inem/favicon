@@ -1,12 +1,12 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require "bundler/setup"
-require "favicon_gem"
+require 'bundler/setup'
+require 'favicon_gem'
 
-# Можно использовать pry для лучшей отладки
+# You can use pry for better debugging
 # require "pry"
 # Pry.start
 
-require "irb"
+require 'irb'
 IRB.start(__FILE__)

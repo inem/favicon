@@ -5,4 +5,4 @@ set -vx
 
 bundle install
 
-# Если нужны дополнительные шаги настройки - добавьте их сюда
+# If additional setup steps are needed - add them here

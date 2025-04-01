@@ -1,68 +1,68 @@
 .PHONY: setup console build install clean run test example
 
-# Имя гема
+# Gem name
 NAME = favicon_gem
 
-# Версия гема (читаем из файла version.rb)
+# Gem version (read from version.rb file)
 VERSION = $(shell grep -o '[0-9]\+\.[0-9]\+\.[0-9]\+' lib/favicon_gem/version.rb)
 
-# Установка зависимостей
+# Install dependencies
 setup:
-	@echo "Установка зависимостей..."
+	@echo "Installing dependencies..."
 	@bundle install
-	@echo "Готово!"
+	@echo "Done!"
 
-# Запуск консоли с загруженным гемом
+# Run console with loaded gem
 console:
-	@echo "Запуск консоли с загруженным гемом..."
+	@echo "Starting console with loaded gem..."
 	@bin/console
 
-# Сборка гема
+# Build gem
 build:
-	@echo "Сборка гема $(NAME)-$(VERSION).gem..."
+	@echo "Building gem $(NAME)-$(VERSION).gem..."
 	@gem build $(NAME).gemspec
-	@echo "Гем собран!"
+	@echo "Gem built!"
 
-# Установка гема локально
+# Install gem locally
 install: build
-	@echo "Установка гема локально..."
+	@echo "Installing gem locally..."
 	@gem install ./$(NAME)-$(VERSION).gem
-	@echo "Гем установлен!"
+	@echo "Gem installed!"
 
-# Очистка временных файлов и артефактов сборки
+# Clean temporary files and build artifacts
 clean:
-	@echo "Очистка временных файлов..."
+	@echo "Cleaning temporary files..."
 	@rm -f *.gem
 	@rm -rf tmp/
-	@echo "Чистка завершена!"
+	@echo "Cleaning completed!"
 
-# Запуск простого примера использования гема
+# Run simple example of gem usage
 run:
-	@echo "Запуск примера использования гема..."
-	@ruby -e "require 'favicon_gem'; icons = FaviconGem.get('https://www.ruby-lang.org/'); icon = icons.first; puts \"Найдена иконка: #{icon.url} (#{icon.width}x#{icon.height}, формат: #{icon.format})\""
+	@echo "Running gem usage example..."
+	@ruby -e "require 'favicon_gem'; icons = FaviconGem.get('https://www.ruby-lang.org/'); icon = icons.first; puts \"Found icon: #{icon.url} (#{icon.width}x#{icon.height}, format: #{icon.format})\""
 
-# Запуск примера из директории examples
+# Run example from examples directory
 example:
-	@echo "Запуск примера из директории examples..."
+	@echo "Running example from examples directory..."
 	@ruby examples/basic_usage.rb
 
-# Запустить тесты
+# Run tests
 test:
-	@echo "Запуск тестов..."
+	@echo "Running tests..."
 	@bundle exec rake test
 
-# Показать помощь
+# Show help
 help:
-	@echo "Доступные команды:"
-	@echo "  make setup    - Установка зависимостей"
-	@echo "  make console  - Запуск консоли с загруженным гемом"
-	@echo "  make build    - Сборка гема"
-	@echo "  make install  - Установка гема локально"
-	@echo "  make clean    - Очистка временных файлов"
-	@echo "  make run      - Запуск простого примера"
-	@echo "  make example  - Запуск полного примера из examples/"
-	@echo "  make test     - Запуск тестов"
-	@echo "  make help     - Показать эту справку"
+	@echo "Available commands:"
+	@echo "  make setup    - Install dependencies"
+	@echo "  make console  - Run console with loaded gem"
+	@echo "  make build    - Build gem"
+	@echo "  make install  - Install gem locally"
+	@echo "  make clean    - Clean temporary files"
+	@echo "  make run      - Run simple example"
+	@echo "  make example  - Run full example from examples/"
+	@echo "  make test     - Run tests"
+	@echo "  make help     - Show this help"
 
-# По умолчанию показываем помощь
+# By default show help
 default: help

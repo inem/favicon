@@ -99,7 +99,9 @@ module FaviconGem
     # @return [Icon, nil] Icon or nil
     def default(url, **request_options)
       uri = URI.parse(url)
-      favicon_url = "#{uri.scheme}://#{uri.host}/favicon.ico"
+      # Preserve port if explicitly specified
+      port_part = uri.port == uri.default_port ? "" : ":#{uri.port}"
+      favicon_url = "#{uri.scheme}://#{uri.host}#{port_part}/favicon.ico"
 
       conn = Faraday.new(url: favicon_url) do |faraday|
         faraday.headers = request_options[:headers] if request_options[:headers]
@@ -142,27 +144,31 @@ module FaviconGem
 
       (link_tags | meta_tags).each do |tag|
         href = tag["href"] || tag["content"] || ""
-        href = href.strip
+        href = href.strip.gsub(/\s+/, "") # Remove all whitespace, including tabs
 
         next if href.empty? || href.start_with?("data:image/")
 
-        url_parsed = if is_absolute(href)
-                      href
-                    else
-                      URI.join(url, href).to_s
-                    end
+        begin
+          # Fix URLs like '//cdn.network.com/favicon.png'
+          if href.start_with?("//")
+            uri = URI.parse(url)
+            href = "#{uri.scheme}:#{href}"
+          end
 
-        # Fix URLs like '//cdn.network.com/favicon.png'
-        uri = URI.parse(url)
-        parsed_uri = URI.parse(url_parsed)
-        if parsed_uri.scheme.nil? && parsed_uri.host.nil? && parsed_uri.path.start_with?("//")
-          url_parsed = "#{uri.scheme}:#{parsed_uri.path}"
+          url_parsed = if is_absolute(href)
+                        href
+                      else
+                        URI.join(url, href).to_s
+                      end
+
+          width, height = dimensions(tag)
+          ext = File.extname(URI.parse(url_parsed).path)[1..]&.downcase || ""
+
+          icons.add(Icon.new(url_parsed, width, height, ext))
+        rescue URI::InvalidURIError => e
+          # Skip invalid URIs
+          next
         end
-
-        width, height = dimensions(tag)
-        ext = File.extname(URI.parse(url_parsed).path)[1..]&.downcase || ""
-
-        icons.add(Icon.new(url_parsed, width, height, ext))
       end
 
       icons

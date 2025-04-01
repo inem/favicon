@@ -1,13 +1,13 @@
-# FaviconGem
+# FaviconGet
 
-FaviconGem is a Ruby gem for finding and retrieving website favicons (icons). It's a port of the popular [favicon](https://github.com/scottwernervt/favicon) Python library.
+FaviconGet is a Ruby gem for finding and retrieving website favicons (icons). It's a port of the popular [favicon](https://github.com/scottwernervt/favicon) Python library.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'favicon_gem'
+gem 'favicon_get'
 ```
 
 And then execute:
@@ -19,7 +19,7 @@ $ bundle install
 Or install it manually:
 
 ```bash
-$ gem install favicon_gem
+$ gem install favicon_get
 ```
 
 ## Usage
@@ -27,9 +27,9 @@ $ gem install favicon_gem
 ### Get all icons
 
 ```ruby
-require 'favicon_gem'
+require 'favicon_get'
 
-icons = FaviconGem.get('https://www.ruby-lang.org/')
+icons = FaviconGet.get('https://www.ruby-lang.org/')
 # => [Icon, Icon, Icon, ...]
 
 # The first icon is usually the largest
@@ -42,10 +42,10 @@ puts "Format: #{icon.format}"
 ### Download an icon
 
 ```ruby
-require 'favicon_gem'
+require 'favicon_get'
 require 'open-uri'
 
-icons = FaviconGem.get('https://www.ruby-lang.org/')
+icons = FaviconGet.get('https://www.ruby-lang.org/')
 icon = icons.first
 
 URI.open(icon.url) do |image|
@@ -60,7 +60,7 @@ end
 ### Additional parameters
 
 ```ruby
-require 'favicon_gem'
+require 'favicon_get'
 
 # Custom headers
 headers = {
@@ -68,7 +68,7 @@ headers = {
 }
 
 # Timeout and other parameters
-FaviconGem.get('https://www.ruby-lang.org/',
+FaviconGet.get('https://www.ruby-lang.org/',
                 headers: headers,
                 timeout: 5)
 ```

@@ -1,10 +1,10 @@
-.PHONY: setup console build install clean run test example
+.PHONY: setup console build install clean run test example push yank
 
 # Gem name
-NAME = favicon_gem
+NAME = favicon_get
 
 # Gem version (read from version.rb file)
-VERSION = $(shell grep -o '[0-9]\+\.[0-9]\+\.[0-9]\+' lib/favicon_gem/version.rb)
+VERSION = $(shell grep -o '[0-9]\+\.[0-9]\+\.[0-9]\+' lib/favicon_get/version.rb)
 
 # Install dependencies
 setup:
@@ -39,7 +39,7 @@ clean:
 # Run simple example of gem usage
 run:
 	@echo "Running gem usage example..."
-	@ruby -e "require 'favicon_gem'; icons = FaviconGem.get('https://www.ruby-lang.org/'); icon = icons.first; puts \"Found icon: #{icon.url} (#{icon.width}x#{icon.height}, format: #{icon.format})\""
+	@ruby -e "require 'favicon_get'; icons = FaviconGet.get('https://www.ruby-lang.org/'); icon = icons.first; puts \"Found icon: #{icon.url} (#{icon.width}x#{icon.height}, format: #{icon.format})\""
 
 # Run example from examples directory
 example:
@@ -50,6 +50,18 @@ example:
 test:
 	@echo "Running tests..."
 	@bundle exec rake test
+
+# Push gem to RubyGems
+push: build
+	@echo "Publishing gem to RubyGems..."
+	@gem push ./$(NAME)-$(VERSION).gem
+	@echo "Gem published!"
+
+# Remove gem from RubyGems
+yank:
+	@echo "Removing gem $(NAME) version $(VERSION) from RubyGems..."
+	@gem yank $(NAME) -v $(VERSION)
+	@echo "Gem removed from RubyGems!"
 
 # Show help
 help:
@@ -62,6 +74,8 @@ help:
 	@echo "  make run      - Run simple example"
 	@echo "  make example  - Run full example from examples/"
 	@echo "  make test     - Run tests"
+	@echo "  make push     - Publish gem to RubyGems"
+	@echo "  make yank     - Remove gem from RubyGems"
 	@echo "  make help     - Show this help"
 
 # By default show help

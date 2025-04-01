@@ -1,12 +1,12 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-# Example of basic usage of FaviconGem
+# Example of basic usage of FaviconGet
 
 # Add path to local gem if it's not installed
 $LOAD_PATH.unshift File.expand_path('../lib', __dir__)
 
-require 'favicon_gem'
+require 'favicon_get'
 require 'open-uri'
 
 # Test URL
@@ -16,7 +16,7 @@ puts "Getting icons for #{url}..."
 
 begin
   # Get all icons
-  icons = FaviconGem.get(url)
+  icons = FaviconGet.get(url)
 
   if icons.empty?
     puts "No icons found for #{url}"

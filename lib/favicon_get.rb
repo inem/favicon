@@ -1,20 +1,20 @@
 # frozen_string_literal: true
 
-require "favicon_gem/version"
+require "favicon_get/version"
 require "faraday"
 require "faraday/follow_redirects"
 require "nokogiri"
 require "uri"
 require "set"
 
-module FaviconGem
+module FaviconGet
   class Error < StandardError; end
 
   # Website icon representation
   Icon = Struct.new(:url, :width, :height, :format)
 
   # Gem metadata
-  TITLE = "favicon_gem"
+  TITLE = "favicon_get"
   AUTHOR = "Ported from Python favicon by Scott Werner"
   LICENSE = "MIT"
 
@@ -165,7 +165,7 @@ module FaviconGem
           ext = File.extname(URI.parse(url_parsed).path)[1..]&.downcase || ""
 
           icons.add(Icon.new(url_parsed, width, height, ext))
-        rescue URI::InvalidURIError => e
+        rescue URI::InvalidURIError
           # Skip invalid URIs
           next
         end

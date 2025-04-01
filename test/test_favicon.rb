@@ -40,7 +40,7 @@ class TestFavicon < Minitest::Test
       WebMock.stub_request(:head, expected)
              .to_return(status: 200, headers: { 'Content-Type' => 'image/x-icon' })
 
-      icons = FaviconGem.get(url)
+      icons = FaviconGet.get(url)
       refute_empty icons, "No icons found for #{url}"
 
       icon = icons.first
@@ -64,7 +64,7 @@ class TestFavicon < Minitest::Test
       favicon_url = 'http://mock.com/favicon.ico'
       stub_default_requests('http://mock.com/', link, favicon_url)
 
-      icons = FaviconGem.get('http://mock.com/')
+      icons = FaviconGet.get('http://mock.com/')
       refute_empty icons
     end
   end
@@ -94,7 +94,7 @@ class TestFavicon < Minitest::Test
       WebMock.stub_request(:head, %r{http://mock\.com/logo.*\.png})
              .to_return(status: 200, headers: { 'Content-Type' => 'image/png' })
 
-      icons = FaviconGem.get('http://mock.com/')
+      icons = FaviconGet.get('http://mock.com/')
       refute_empty icons, "No icons found for link: #{link}"
 
       icon = icons.first
@@ -128,7 +128,7 @@ class TestFavicon < Minitest::Test
       WebMock.stub_request(:head, url)
              .to_return(status: 200, headers: { 'Content-Type' => 'image/png' })
 
-      icons = FaviconGem.get('http://mock.com/')
+      icons = FaviconGet.get('http://mock.com/')
       refute_empty icons, "No icons found for URL: #{url} from link: #{link}"
 
       icon = icons.first
@@ -142,7 +142,7 @@ class TestFavicon < Minitest::Test
     # Block default favicon
     WebMock.stub_request(:head, 'http://mock.com/favicon.ico').to_return(status: 404)
 
-    icons = FaviconGem.get('http://mock.com/')
+    icons = FaviconGet.get('http://mock.com/')
     assert_empty icons
   end
 
@@ -164,7 +164,7 @@ class TestFavicon < Minitest::Test
         headers: { 'Content-Type' => 'image/x-icon' }
       )
 
-      icons = FaviconGem.get('http://mock.com/')
+      icons = FaviconGet.get('http://mock.com/')
       refute_empty icons
     end
   end
@@ -179,7 +179,7 @@ class TestFavicon < Minitest::Test
     # Block default favicon
     WebMock.stub_request(:head, 'http://mock.com/favicon.ico').to_return(status: 404)
 
-    icons = FaviconGem.get('http://mock.com/')
+    icons = FaviconGet.get('http://mock.com/')
     assert_empty icons
   end
 
@@ -196,7 +196,7 @@ class TestFavicon < Minitest::Test
     # Block default favicon
     WebMock.stub_request(:head, 'http://mock.com/favicon.ico').to_return(status: 404)
 
-    icons = FaviconGem.get('http://mock.com/', headers: headers)
+    icons = FaviconGet.get('http://mock.com/', headers: headers)
     assert_empty icons
   end
 
@@ -208,7 +208,7 @@ class TestFavicon < Minitest::Test
     ]
 
     urls_and_results.each do |url, expected|
-      result = FaviconGem.send(:is_absolute, url)
+      result = FaviconGet.send(:is_absolute, url)
       assert_equal expected, result
     end
   end

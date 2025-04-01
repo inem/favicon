@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 require 'bundler/setup'
-require 'favicon_gem'
+require 'favicon_get'
 
 # You can use pry for better debugging
 # require "pry"
